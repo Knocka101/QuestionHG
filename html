@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanna Be My HG?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Poppins:wght@800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .title-font {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .pop-in {
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .bounce-hover {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .bounce-hover:hover {
+            transform: scale(1.06) translateY(-4px);
+        }
+        .bounce-hover:active {
+            transform: scale(0.95) translateY(1px);
+        }
+
+        @keyframes glowPink {
+            0%, 100% { box-shadow: 0 0 15px rgba(236, 72, 153, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.9); }
+        }
+        .glow-effect {
+            animation: glowPink 2s infinite;
+        }
+    </style>
+</head>
+<body id="bg-container" class="bg-gradient-to-b from-sky-400 via-sky-300 to-blue-500 min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden">
+
+    <!-- Formspree form integration for automated email notifications -->
+    <form id="email-form" action="https://formspree.io/f/xbjnqpyz" method="POST" class="hidden">
+        <input type="hidden" name="recipient" value="kozakbespremi@gmail.com">
+        <input type="hidden" name="answer" id="form-answer-input" value="">
+    </form>
+
+    <main class="w-full max-w-lg flex flex-col items-center justify-center text-center my-auto">
+        
+        <!-- Main Card Container -->
+        <div class="w-full space-y-6 pop-in flex flex-col items-center">
+            
+            <!-- Picture Box Container (The Bikini Bottom image gets replaced here on YES) -->
+            <div id="image-frame" class="w-full rounded-3xl overflow-hidden border-8 border-amber-900 shadow-2xl bg-sky-900/40 relative">
+                <img id="main-display-img" 
+                     src="image_2.png" 
+                     alt="Bikini Bottom News Interview" 
+                     class="w-full h-64 sm:h-80 object-cover rounded-2xl transition-all duration-500"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=80';" />
+            </div>
+
+            <!-- Initial Question View -->
+            <div id="question-controls" class="w-full space-y-5">
+                <h1 class="title-font text-4xl sm:text-5xl text-yellow-300 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] tracking-wide font-black uppercase">
+                    Wanna Be My HG? 💖
+                </h1>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-row items-center justify-center gap-4 sm:gap-6 pt-2 w-full max-w-sm mx-auto">
+                    <!-- YES BUTTON -->
+                    <button onclick="handleAnswer('YES')" 
+                            class="bounce-hover glow-effect flex-1 bg-gradient-to-r from-emerald-400 to-green-500 hover:from-emerald-300 hover:to-green-400 text-white font-black text-2xl sm:text-3xl py-4 px-6 rounded-2xl border-4 border-white shadow-[0_6px_0_#15803d] cursor-pointer">
+                        YES! 😍
+                    </button>
+
+                    <!-- NO BUTTON -->
+                    <button onclick="handleAnswer('NO')" 
+                            class="bounce-hover flex-1 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500 text-white font-black text-2xl sm:text-3xl py-4 px-6 rounded-2xl border-4 border-white shadow-[0_6px_0_#9f1239] cursor-pointer">
+                        NO 🙈
+                    </button>
+                </div>
+            </div>
+
+            <!-- YES Message Panel (Initially Hidden) -->
+            <div id="yes-message" class="hidden flex-col items-center justify-center space-y-4 w-full pop-in">
+                <h2 class="title-font text-5xl sm:text-7xl text-yellow-300 drop-shadow-[0_6px_12px_rgba(0,0,0,0.8)] font-black tracking-widest uppercase animate-bounce mt-2">
+                    LETS GOO 🎉🔥
+                </h2>
+            </div>
+
+            <!-- NO View Panel (Initially Hidden) -->
+            <div id="no-message" class="hidden flex-col items-center justify-center space-y-6 w-full pop-in">
+                <!-- Sad Sticker / Animated Visual -->
+                <div class="relative flex items-center justify-center my-4">
+                    <div class="text-9xl sm:text-[11rem] filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)] animate-pulse">
+                        😭
+                    </div>
+                    <div class="absolute -top-2 -right-2 text-6xl">
+                        💔
+                    </div>
+                </div>
+                
+                <h2 class="title-font text-4xl sm:text-6xl text-red-400 drop-shadow-[0_5px_10px_rgba(0,0,0,0.9)] font-black text-center tracking-wide">
+                    Fak ju men 🖕🖕
+                </h2>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function handleAnswer(choice) {
+            const bgContainer = document.getElementById('bg-container');
+            const mainImg = document.getElementById('main-display-img');
+            const imgFrame = document.getElementById('image-frame');
+            const questionControls = document.getElementById('question-controls');
+            const yesMessage = document.getElementById('yes-message');
+            const noMessage = document.getElementById('no-message');
+
+            // Hide initial question title and buttons
+            questionControls.classList.add('hidden');
+
+            if (choice === 'YES') {
+                // 1. Replace the Bikini Bottom image directly with Druski and Kai Cenat (image.png)
+                mainImg.src = "image.png";
+                mainImg.onerror = function() {
+                    this.onerror = null;
+                    this.src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1000&q=80";
+                };
+
+                // Update frame styling for YES screen
+                imgFrame.className = "w-full rounded-3xl overflow-hidden border-8 border-pink-300 shadow-2xl bg-pink-900/30 relative pop-in";
+
+                // 2. Change background to vibrant hot pink gradient
+                bgContainer.className = 'min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden';
+                bgContainer.style.backgroundColor = '#ff69b4';
+                bgContainer.style.backgroundImage = 'radial-gradient(circle, #ff85c0 0%, #d81b60 100%)';
+
+                // 3. Show "LETS GOO" message below the replaced picture
+                yesMessage.classList.remove('hidden');
+                yesMessage.classList.add('flex');
+            } else {
+                // Hide the image frame altogether when selecting NO
+                imgFrame.classList.add('hidden');
+
+                // Change background to dark blue gradient
+                bgContainer.className = 'min-h-screen flex flex-col items-center justify-center p-4 overflow-x-hidden';
+                bgContainer.style.backgroundColor = '#0b132b';
+                bgContainer.style.backgroundImage = 'radial-gradient(circle, #1c2541 0%, #0b132b 100%)';
+
+                // Display sad sticker & "Fak ju men 🖕🖕" message
+                noMessage.classList.remove('hidden');
+                noMessage.classList.add('flex');
+            }
+
+            // Send email notification to kozakbespremi@gmail.com
+            sendEmailNotification(choice);
+        }
+
+        function sendEmailNotification(choice) {
+            const recipient = "kozakbespremi@gmail.com";
+            const subject = encodeURIComponent("Answer to: Wanna Be My HG?");
+            const body = encodeURIComponent(`Answer selected: ${choice}`);
+
+            const form = document.getElementById('email-form');
+            document.getElementById('form-answer-input').value = choice;
+
+            // Submit via Formspree service with mailto fallback
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            }).catch(() => {
+                // Mailto fallback if offline or blocked
+                window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+            });
+        }
+    </script>
+</body>
+</html>
